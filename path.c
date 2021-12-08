@@ -42,7 +42,7 @@ void read_figure(char **map, t_pos *pos)
 				}
 				else
 				{
-					pos->move[m].col = pos->max_col - j;
+					pos->move[m].col = j - pos->max_col;
 					pos->move[m].row = i - pos->max_row;
 					++m;
 				}
