@@ -1,7 +1,7 @@
 #include "fillit.h"
 #include <stdio.h>
 
-void ft_read_figure(char **map, t_pos *pos)
+void ft_read_coord(char **map, t_pos pos[26], int n)
 {
 	int m;
 	int top_r;
@@ -9,22 +9,22 @@ void ft_read_figure(char **map, t_pos *pos)
 	int	i;
 	int	j;
 
-	m = -1;
+	m = -2;
 	i = -1;
 	while (++i < 4)
 	{
 		j = -1;
 		while (++j < 4)
 		{
-			if (map[i][j] == '#' && ++m == 0)
+			if (map[i][j] == '#' && m++ == -2)
 			{
 				top_r = i;
 				top_c = j;
 			}
-			else if (map[i][j] == '#' && m)
+			else if (map[i][j] == '#' && m >= 0)
 			{
-				pos->coord->c = j - top_c;
-				pos->coord->r = i - top_r;
+				pos[n].coord[m].c = j - top_c;
+				pos[n].coord[m].r = i - top_r;
 			}
 		}
 	}
@@ -36,83 +36,69 @@ void	ft_free_map(char ***map)
 
 	i = 0;
 	while (i < 4)
-		free(map[i]);
+	{
+		ft_strdel(&(*map)[i]);
+		++i;
+	}
 }
 
-void ft_read_tetrim_to_map(t_pos **pos, char *text)
+char	**ft_read_from_file(char *file_name)
 {
-	char	**map;
-	char	*line;
 	int		fd;
-	int		i;
-	int		j;
+	int		ret;
+	char	buf[BUFF_SIZE];
+	char	**map;
 
-	fd = open(text, O_RDONLY);
+	fd = open(file_name, O_RDONLY);
 	if (fd < 0)
 		exit(1);
-	map = (char **)malloc(sizeof(char *));
+	ret = read(fd, buf, BUFF_SIZE);
+	if (ret <= 0)
+		exit(1);
+	buf[ret] = '\0';
+	map = ft_strsplit(buf, '\n');
+	if (!map)
+		exit(1);
+	close(fd);
+	return (map);
+} 
+
+int ft_read_tetrim_from_map(t_pos pos[26], char *file_name)
+{
+	char	**temp;
+	char 	**map;
+	int		i;
+	int 	j;
+	int		num;
+
+	map = ft_read_from_file(file_name);
+	temp = (char **)malloc(sizeof(char *) * 4);
 	i = 0;
 	j = 0;
-	while (get_next_line(fd, &line))
+	num = 0;
+	while (map[i])
 	{
-		if (i < 4)
-			map[i++] = line;
-		else
+	    temp[j++] = map[i++];
+		if (j == 4)
 		{
-			ft_read_figure(map, pos[j++]);
-			ft_free_map(&map);
-			free(line);
-			i = 0;
+			ft_read_coord(temp, pos, num++);
+			ft_free_map(&temp);
+			j = 0;
 		}
 	}
+	free(temp);
+	free(map);
+	return (num);
 }
 
-void	ft_print_map(t_pos pos[26], char map[20][20], int n)
+int ft_smallest_square(int num)
 {
-	int	i;
-	int	j;
+	int count;
+	int i;
 
-	i = -1;
-	while (++i < n)
-	{
-		j = -1;
-		while (++j < n)
-			ft_putchar(map[i][j]);
-		ft_putchar('\n');
-	}	
-}
-
-void	ft_full_map(char map[20][20])
-{
-	int	i;
-	int	j;
-
-	i = -1;
-	while (++i < 20)
-	{
-		j = -1;
-		while (++j < 20)
-			map[i][j] = '.';
-	}	
-}
-
-
-int main(int argc, char **argv)
-{
-	t_pos 	*pos;
-	char	map[20][20];
-	int		n;
-
-	pos = (t_pos *)malloc(sizeof(t_pos) * 4);
-	ft_full_map(map);
-	ft_read_tetrim_to_map(&pos, argv[1]);
-	for (size_t i = 0; i < 4; i++)
-	{
-		for (size_t j = 0; j < 4; j++)
-			printf("%d,\t%d\n", pos[i].coord[j].r, pos[i].coord[j].c);
-		printf("\n");
-	}
-	
-	//ft_print_map(pos, map, 8);
-	return (0);
+	count = num * 4;
+	i = 3;
+	while (count > i*i)
+		++i;
+	return (i); 
 }
