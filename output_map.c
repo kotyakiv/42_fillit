@@ -29,8 +29,8 @@ static	int ft_check_pos(char map[20][20], t_pos pos[26], int i, int j, int k, in
 	m = 0;
 	while (m < 3)
 	{
-		if ((j + pos[k].coord[m].c > n || j + pos[k].coord[m].c < 0 \
-				|| i + pos[k].coord[m].r > n) || \
+		if ((j + pos[k].coord[m].c >= n || j + pos[k].coord[m].c < 0 \
+				|| i + pos[k].coord[m].r >= n) || \
 			map[i + pos[k].coord[m].r][j + pos[k].coord[m].c] != '.')
 			return (0);
 		else
