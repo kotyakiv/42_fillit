@@ -39,40 +39,42 @@ static	int ft_check_pos(char map[20][20], t_pos pos[26], int i, int j, int k, in
 	return (1);
 }
 
-void change_map(char map[20][20], t_pos pos[26], int n)
+void	ft_tetr_to_map(char map[20][20], t_pos pos[26], char *a, int *tetr, int i, int j)
 {
 	int m;
-	int k;
+
+	m = 0;
+	map[i][j] = *a;
+	while (m < 3)
+	{
+		map[i + pos[*tetr].coord[m].r][j + pos[*tetr].coord[m].c] = *a;
+		++m;
+	}
+	(*a)++;
+	(*tetr)++;
+}
+
+
+int change_map(char map[20][20], t_pos pos[26], int n, int square)
+{
+	int m;
+	int tetr;
 	int i;
 	int j;
 	char a;
 
 	a = 'A';
-	k = 0;
-	i = 0;
-	while (i < n)
+	tetr = 0;
+	i = -1;
+	while (++i < square)
 	{
-		j = 0;
-		while (j < n)
+		j = -1;
+		while (++j < square && tetr < n)
 		{
 			if (map[i][j] == '.')
-			{
-				m = 0;
-				if (ft_check_pos(map, pos, i, j, k, n))
-				{
-					map[i][j] = a;
-					while (m < 3)
-					{
-						map[i + pos[k].coord[m].r][j + pos[k].coord[m].c] = a;
-						++m;
-					}
-					a++;
-					k++;
-				}
-			}
-			++j;
+				if (ft_check_pos(map, pos, i, j, tetr, square))
+					ft_tetr_to_map(map, pos, &a, &tetr, i, j);
 		}
-		++i;
 	}
-
+	return (square);
 }
