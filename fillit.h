@@ -22,6 +22,6 @@ int		ft_smallest_square(int num);
 
 void	ft_print_map(t_pos pos[26], char map[20][20], int n);
 void	ft_fill_map(char map[20][20]);
-void	change_map(char map[20][20], t_pos pos[26], int n);
+int		change_map(char map[20][20], t_pos pos[26], int n, int square);
 
 #endif
