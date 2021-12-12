@@ -1,27 +1,7 @@
 #include "fillit.h"
 #include <stdio.h>
 
-void	ft_print_map(t_pos pos[26], char map[20][20], int n)
-{
-	int	i;
-	int	j;
-
-	i = -1;
-	while (++i < n)
-	{
-		j = -1;
-		while (++j < n)
-			ft_putchar(map[i][j]);
-		ft_putchar('\n');
-	}	
-}
-
-void	ft_fill_map(char map[20][20])
-{
-	ft_memset(*map, '.', 400);
-}
-
-static	int ft_check_pos(char map[20][20], t_pos pos[26], int i, int j, int k, int n)
+int ft_check_pos(char map[20][20], t_pos pos[26], int i, int j, int k, int n)
 {
 	int flag;
 	int m;
@@ -39,32 +19,39 @@ static	int ft_check_pos(char map[20][20], t_pos pos[26], int i, int j, int k, in
 	return (1);
 }
 
-void	ft_tetr_to_map(char map[20][20], t_pos pos[26], char *a, int *tetr, int i, int j)
+void	ft_tetr_to_map(char map[20][20], t_pos pos[26], char a, int tetr, int i, int j)
 {
 	int m;
 
 	m = 0;
-	map[i][j] = *a;
+	map[i][j] = a;
 	while (m < 3)
 	{
-		map[i + pos[*tetr].coord[m].r][j + pos[*tetr].coord[m].c] = *a;
+		map[i + pos[tetr].coord[m].r][j + pos[tetr].coord[m].c] = a;
 		++m;
 	}
-	(*a)++;
-	(*tetr)++;
 }
 
-
-int change_map(char map[20][20], t_pos pos[26], int n, int square)
+void	ft_erase(char map[20][20], t_pos pos[26], int tetr, int i, int j)
 {
 	int m;
-	int tetr;
+
+	m = 0;
+	map[i][j] = '.';
+	while (m < 3)
+	{
+		map[i + pos[tetr].coord[m].r][j + pos[tetr].coord[m].c] = '.';
+		++m;
+	}
+}
+
+int change_map(char map[20][20], t_pos pos[26], int n, int square, int tetr)
+{
 	int i;
 	int j;
 	char a;
 
-	a = 'A';
-	tetr = 0;
+	a = 'A' + tetr;
 	i = -1;
 	while (++i < square)
 	{
@@ -73,8 +60,15 @@ int change_map(char map[20][20], t_pos pos[26], int n, int square)
 		{
 			if (map[i][j] == '.')
 				if (ft_check_pos(map, pos, i, j, tetr, square))
-					ft_tetr_to_map(map, pos, &a, &tetr, i, j);
+				{
+					ft_tetr_to_map(map, pos, a, tetr, i, j);
+					if (change_map(map, pos, n, square, tetr + 1))
+						return (1);
+					ft_erase(map, pos, tetr, i, j);
+				}
 		}
 	}
-	return (square);
+	if (tetr == n)
+		return (1);
+	return (0);
 }

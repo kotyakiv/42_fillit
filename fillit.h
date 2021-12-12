@@ -20,8 +20,13 @@ void	ft_free_map(char ***map);
 void	ft_read_coord(char **map, t_pos pos[26], int n);
 int		ft_smallest_square(int num);
 
+int 	ft_check_pos(char map[20][20], t_pos pos[26], int i, int j, int k, int n);
+void	ft_tetr_to_map(char map[20][20], t_pos pos[26], char a, int tetr, int i, int j);
+void	ft_erase(char map[20][20], t_pos pos[26], int tetr, int i, int j);
+int		change_map(char map[20][20], t_pos pos[26], int n, int square, int tetr);
+
+
 void	ft_print_map(t_pos pos[26], char map[20][20], int n);
 void	ft_fill_map(char map[20][20]);
-int		change_map(char map[20][20], t_pos pos[26], int n, int square);
 
 #endif
