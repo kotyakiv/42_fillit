@@ -1,4 +1,4 @@
-SRC = output_map.c main.c reading.c print_map.c
+SRC = error_handling.c output_map.c main.c reading.c print_map.c
 OBJ = $(SRC:.c=.o)
 NAME = fillit
 
