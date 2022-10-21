@@ -47,4 +47,4 @@ DD.EE
 ```
 ## Authors
 [kotyakiv](https://github.com/kotyakiv)  
-[Jonas13s](github.com/Jonas13s)
+[Jonas13s](https://github.com/Jonas13s)
