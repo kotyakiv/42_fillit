@@ -1,6 +1,6 @@
 # 42_fillit
 The aim of the project is to find a way to assemble a given Tetriminos set 
-altogether in the smallest possible square. Tetriminos has the same shape as in the famous game **Tetris**
+all together in the smallest possible square. Tetriminos has the same shape as in the famous game **Tetris**
 ## Input
 Pass as an argument file with the Tetriminos seperated by new line
 ```
