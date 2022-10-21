@@ -5,14 +5,14 @@ altogether in the smallest possible square. Tetriminos has the same shape as in 
 Pass as an argument file with the Tetriminos seperated by new line
 ```
 ####
-....  
-....  
+....
+....
 ....
 
 ....
-..#.
-.###
 ....
+.###
+..#.
 
 ...#
 ...#
@@ -20,6 +20,11 @@ Pass as an argument file with the Tetriminos seperated by new line
 ....
 
 ##..
+.##.
+....
+....
+
+.##.
 .##.
 ....
 ....
@@ -32,4 +37,14 @@ not seperated with new line or too many new lines
 more than 26 Tetriminos  
 no shapes as in the original **Tetris**
 ## Output
-Combined set of Tetriminos in the one smallest possible square. All Tetriminos got letters from A to Z to identify them in the square in the order as they were passed.
+The combined set of Tetriminos in the one smallest possible square. All Tetriminos got letters from A to Z to identify them in the square in the order as they were passed.
+```
+AAAAC
+BBB.C
+.B.CC
+DD.EE
+.DDEE
+```
+## Authors
+[kotyakiv](https://github.com/kotyakiv)  
+[Jonas13s](github.com/Jonas13s)
